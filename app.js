@@ -1,19 +1,44 @@
-const mongoose = require("mongoose");
 const express = require("express");
+const mongoose = require("mongoose");
 const app = express();
 
 app.use(express.json());
 
+
+
+const companySchema = new mongoose.Schema({
+    company_name:{type:String},
+    req_skill:{type:String},
+    job_location:{type:String},
+    notice_period:{type:Number},
+    rating:{type:Number},
+    job_type:{type:String},
+    vacancy:{type:Number},
+},{
+    versionKey:false,
+    timestamps:true
+})
+
+
+
+
+
+
+
+
+
+
+
+
 const connect = () => {
-    return mongoose.connect("mongodb://127.0.0.1:27017/company");
+    return mongoose.connect("mongodb://localhost/company");
 }
 
-const start = async () => {
+const start = async ()=>{
     await connect();
-    app.listen(5000, ()=> {
-        console.log("Listning port 5000 :)");
-    })
+    app.listen(3000,()=>{
+        console.log("Listning the port 3000.");
+    });
 }
-
 
 start();
