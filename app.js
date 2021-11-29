@@ -7,13 +7,12 @@ app.use(express.json());
 
 
 const companySchema = new mongoose.Schema({
-    comp_name:{type:String},
-    comp_skill:{type:String},
-    location:{type:String},
-    notice_period:{type:Number},
-    comp_rating:{type:Number},
-    job_type:{type:String},
-    job_vacancy:{type:Number},
+    Name:{type:String},
+    type:{type:String},
+    ratings:{type:Number},
+    city:{type:String},
+    skills:{type:String},
+    period:{type:Number},
 },{
     versionKey:false,
     timestamps:true
@@ -23,9 +22,9 @@ const companySchema = new mongoose.Schema({
 const Company =  mongoose.model("Company",companySchema);
 
 
-app.get("/company/:comp_name",async (req,res)=>{
+app.get("/company/:Name",async (req,res)=>{
     try{
-        const company = await Company.find({comp_name:req.params.comp_name}).lean().exec();
+        const company = await Company.find({Name:req.params.Name}).lean().exec();
         res.status(201).send(company);
     }
     catch(err){
@@ -34,6 +33,45 @@ app.get("/company/:comp_name",async (req,res)=>{
 });
 
 
+
+app.get("/comp",async(req,res)=>
+{
+    try{
+        const company= await Company.find({type: {$req:"work from Home"}});
+
+        res.status(201).send(company);
+    }
+    catch(err)
+    {
+        res.status(400).send(err);
+    }
+});
+
+
+app.get("/comprating",async(req,res)=>
+{
+    try{
+        const company = await Company.find().sort({ratings:2}).lean().exec();
+        res.status(400).send(company);
+    }
+    catch(err)
+    {
+        res.status(400).send(err);
+    }
+});
+
+app.get("/city",async(req,res)=>
+{
+try{
+    const company=await Company.find({city:"Banglore"}).lean().exec();
+    res.status(201).send(company);
+}
+
+catch(err)
+{
+    res.status(400).send(err);
+}
+});
 
 
 
